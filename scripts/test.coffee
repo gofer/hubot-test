@@ -1,7 +1,7 @@
 to_link = (url, text) -> '[' + text + '](' + url + ')'
 
 module.exports = (robot) ->
-  robot.hear /^heybot$/i, (res) ->
+  robot.hear /^heybot$/i, {}, (res) ->
     robot.logger.info 'heybot'
     res.send "Yes, I'm bot!"
 

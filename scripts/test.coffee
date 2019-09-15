@@ -1,11 +1,12 @@
 to_link = (url, text) -> '[' + text + '](' + url + ')'
 
 module.exports = (robot) ->
+  robot.hear /^heybot$/i, (res) ->
+    robot.logger.info 'heybot'
+    res.send "Yes, I'm bot!"
+
   robot.hear /^heybot wow$/i, (res) ->
     res.send '因果WOWWOWって奴ですね'
-
-  robot.hear /^heybot$/i, (res) ->
-    res.send "Yes, I'm bot!"
 
   robot.hear /^heybot time$/i, (res) ->
     res.send 'Time: ' + new Date().toString()

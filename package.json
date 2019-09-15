@@ -1,0 +1,40 @@
+{
+  "name": "test-hubot",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Gofer(@gofer_ex) <gofer@ex-studio.info>",
+  "description": "test bot by hubot on mattermost",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gofer/test-hubot"
+  },
+  "dependencies": {
+    "coffeescript": "^2.4.0",
+    "hubot": "^3.3.2",
+    "hubot-diagnostics": "^1.0.0",
+    "hubot-help": "^1.0.1",
+    "hubot-mattermost": "^1.0.7",
+    "hubot-redis-brain": "^1.0.0",
+    "hubot-rules": "^1.0.0",
+    "bluebird": "^3.5.5",
+    "date-format": "^2.1.0",
+    "request": "^2.88.0",
+    "xml2json": "^0.11.0"
+  },
+  "devDependencies": {
+    "coffeelint": "^2.1.0",
+    "mocha": "^6.2.0",
+    "mocha-sinon": "^2.1.0",
+    "chai": "^4.2.0",
+    "co": "^4.6.0",
+    "hubot-test-helper": "^1.9.0"
+  },
+  "engines": {
+    "node": "> 4.0.0"
+  },
+  "scripts": {
+    "exec": "hubot -a shell -d -n hubot-test",
+    "lint": "coffeelint ./scripts/",
+    "test": "mocha --require coffeescript/register test/*.coffee"
+  }
+}

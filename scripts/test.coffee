@@ -9,7 +9,7 @@ module.exports = (robot) ->
     res.send '因果WOWWOWって奴ですね'
 
   robot.hear /^heybot time/i, (res) ->
-    format = require 'dateformat'
+    format = require 'date-format'
     DateFormat = 'yyyy/MM/dd(ddd) hh:mm:ss [Z]'
     
     response = '現在の時刻: ' + format(new Date, DateFormat)

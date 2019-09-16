@@ -9,7 +9,15 @@ module.exports = (robot) ->
     res.send '因果WOWWOWって奴ですね'
 
   robot.hear /^heybot time$/i, (res) ->
-    res.send '現在の時刻: ' + new Date().toString()
+    # res.send '現在の時刻: ' + new Date().toString()
+    format = require 'dateformat'
+    DateFormat = 'yyyy/MM/dd(ddd) hh:mm:ss [Z]'
+    
+    response = '現在の時刻: ' + format(new Date, DateFormat)
+    if process.env.TZ != undefined
+       response += ', ENV[\'TZ\'] = ' + process.env.TZ
+    
+    res.send response
 
   robot.hear /^heybot weather$/i, (res) ->
     YahooWeather = require './yahoo_weather'

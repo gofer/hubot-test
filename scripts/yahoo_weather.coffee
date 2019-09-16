@@ -1,13 +1,18 @@
 class YahooWeather
-  LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'
+  @LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'
     .concat '{pref_id}/{location_id}.html'
-  RSSBaseURI = 'https://rss-weather.yahoo.co.jp/rss/days/'
+  
+  @RSSBaseURI = 'https://rss-weather.yahoo.co.jp/rss/days/'
     .concat '{location_id}.xml'
   
   @get_link_uri: (location_id, pref_id) ->
-    LinkBaseURI
+    YahooWeather.LinkBaseURI
       .replace(/\{location_id\}/g, location_id)
       .replace(/\{pref_id\}/g, pref_id)
+
+  @get_rss_uri: (location_id) ->
+    YahooWeather.RSSBaseURI
+      .replace(/\{location_id\}/, location_id)
   
   xml_raw_json_formater = (json) ->
     last_update = new Date(json.rss.channel.lastBuildDate)
@@ -55,7 +60,7 @@ class YahooWeather
   @get_async: (location_id) ->
     new Promise (resolve, reject) ->
       request = require 'request'
-      rss_uri = RSSBaseURI.replace(/\{location_id\}/, location_id)
+      rss_uri = YahooWeather.get_rss_uri location_id
       
       try
         request.get(
@@ -79,4 +84,5 @@ class YahooWeather
         reject(err)
 
 exports.get_link_uri = YahooWeather.get_link_uri
+exports.get_rss_uri  = YahooWeather.get_rss_uri
 exports.get_async    = YahooWeather.get_async

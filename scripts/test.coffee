@@ -8,6 +8,33 @@ module.exports = (robot) ->
   robot.hear /^heybot wow$/i, (res) ->
     res.send '因果WOWWOWって奴ですね'
 
+  robot.hear /^heybot todo add (.*)$/i, (res) ->
+    list = get_todo_list()
+    list.push(res.match[1])
+    set_todo_list list
+    
+    res.send 'ToDo \"' + res.match[1] + '\" 覚えた!'
+
+  robot.hear /^heybot todo list$/i, (res) ->
+    list = get_todo_list()
+    
+    if list.length == 0
+      res.send 'ToDo 何も覚えていない…'
+    else
+      res.send 'ToDo で覚えているのは \"' + list + '\" だよ!'
+
+  robot.hear /^heybot todo forget$/i, (res) ->
+    set_todo_list []
+    
+    res.send 'ToDo 全部忘れた!'
+  
+  get_todo_list = ->
+    list = robot.brain.get 'todo'
+    return if (list == null) then [] else list
+  
+  set_todo_list = (list) ->
+    robot.brain.set 'todo', list
+
   robot.hear /^heybot time/i, (res) ->
     moment = require 'moment-timezone'
     moment.locale('ja-JP')
@@ -31,6 +58,6 @@ module.exports = (robot) ->
       respond_text = await RobotHelper.get_weather_from_yahoo(
         pref_id, location_id
       )
-      res.send(respond_text)
+      res.send respond_text
     catch err
-      res.send('お天気わからない… (' + err.toString() + ')')
+      res.send 'お天気わからない… (' + err.toString() + ')'

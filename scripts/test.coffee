@@ -40,7 +40,9 @@ module.exports = (robot) ->
     moment = require 'moment-timezone'
     moment.locale('ja-JP')
     DateFormat = 'YYYY/MM/DD(ddd) HH:mm:ss (z)'
-    current_datetime = moment(new Date()).tz('Asia/Tokyo').format(DateFormat)
+    
+    timezone = process.env.TZ ? 'UTC'
+    current_datetime = moment(new Date()).tz(timezone).format(DateFormat)
     
     response = '現在の時刻: ' + current_datetime
     if process.env.TZ

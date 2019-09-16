@@ -17,11 +17,12 @@ module.exports = (robot) ->
 
   robot.hear /^heybot todo list$/i, (res) ->
     list = get_todo_list()
+    list = MattermostFormatter.to_check_list list
     
     if list.length == 0
       res.send 'ToDo 何も覚えていない…'
     else
-      res.send 'ToDo で覚えているのは \"' + list + '\" だよ!'
+      res.send 'ToDo で覚えているのは次の通りだよ!\n\n' + list
 
   robot.hear /^heybot todo forget$/i, (res) ->
     set_todo_list []

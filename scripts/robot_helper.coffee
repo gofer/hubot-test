@@ -5,9 +5,10 @@ class RobotHelper
   @get_weather_from_yahoo: (pref_id, location_id) ->
     json = await YahooWeather.get_async location_id
     
-    format = require 'dateformat'
-    LastUpdateFormat = 'yyyy/MM/dd hh:mm'
-    console.log('debug', format(json.last_update, LastUpdateFormat))
+    moment = require 'moment-timezone'
+    moment.locale('ja-JP')
+    LastUpdateFormat = 'YYYY/MM/DD hh:mm'
+    last_update = moment(json.last_update).format(LastUpdateFormat)
     
     link_uri = YahooWeather.get_link_uri location_id, pref_id
     
@@ -16,11 +17,11 @@ class RobotHelper
           link_uri,
           '{location}の天気 (by Yahoo!天気・災害)'
         ),
-        '(最終更新日: {last_update})'
+        '(最終更新日時: {last_update})'
       ]
       .join('　')
       .replace(/\{location\}/g, json.location)
-      .replace(/\{last_update\}/g, format(json.last_update, LastUpdateFormat))
+      .replace(/\{last_update\}/g, last_update)
     
     weather2emoji = (text) ->
       text = text

@@ -9,12 +9,14 @@ module.exports = (robot) ->
     res.send '因果WOWWOWって奴ですね'
 
   robot.hear /^heybot time/i, (res) ->
-    format = require 'dateformat'
-    DateFormat = 'yyyy/MM/dd(ddd) hh:mm:ss [Z]'
+    moment = require 'moment-timezone'
+    moment.locale('ja-JP')
+    DateFormat = 'YYYY/MM/DD(ddd) HH:mm:ss (z)'
+    current_datetime = moment(new Date()).tz('Asia/Tokyo').format(DateFormat)
     
-    response = '現在の時刻: ' + (format new Date, DateFormat)
+    response = '現在の時刻: ' + current_datetime
     if process.env.TZ
-       response += ', ENV[\'TZ\'] = ' + process.env.TZ
+      response += ', ENV[\'TZ\'] = ' + process.env.TZ
     
     res.send response
 
@@ -26,7 +28,9 @@ module.exports = (robot) ->
     location_id = 6710
     
     try
-      respond_text = await RobotHelper.get_weather_from_yahoo pref_id, location_id
+      respond_text = await RobotHelper.get_weather_from_yahoo(
+        pref_id, location_id
+      )
       res.send(respond_text)
     catch err
       res.send('お天気わからない… (' + err.toString() + ')')

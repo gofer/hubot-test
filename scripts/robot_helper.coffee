@@ -1,6 +1,6 @@
 class RobotHelper
-  MattermostFormatter = require './mattermost_formatter'
-  YahooWeather = require './yahoo_weather'
+  MattermostFormatter = require '../lib/mattermost_formatter'
+  YahooWeather = require '../lib/yahoo_weather'
   
   @get_weather_from_yahoo: (pref_id, location_id) ->
     json = await YahooWeather.get_async location_id

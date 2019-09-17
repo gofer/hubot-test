@@ -1,9 +1,20 @@
-MattermostFormatter = require './mattermost_formatter'
+MattermostFormatter = require '../lib/mattermost_formatter'
 RobotHelper = require './robot_helper'
 
 module.exports = (robot) ->
-  robot.hear /^heybot$/i, {}, (res) ->
+  robot.hear /^heybot$/i, (res) ->
     res.send "Yes, I'm bot!"
+
+  robot.hear /^heybot debug(.*)$/, (res) ->
+    YahooWeather = require '../lib/yahoo_weather'
+    
+    query = if res.match[1].trim().length > 0 then res.match[1].trim() else ''
+    
+    result = YahooWeather.search_location query
+    
+    #console.log result
+    
+    res.send 'Location: ' + result.answer_type
 
   robot.hear /^heybot wow$/i, (res) ->
     res.reply '因果WOWWOWって奴ですね'

@@ -35,6 +35,7 @@
   },
   "scripts": {
     "exec": "hubot -a shell -d -n test-hubot",
+    "debug": "coffee --nodejs --inspect ./node_modules/.bin/hubot -a shell -d -n hubot",
     "lint": "coffeelint ./scripts/",
     "test": "mocha --require coffeescript/register test/*.coffee"
   }

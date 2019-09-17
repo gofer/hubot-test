@@ -6,7 +6,7 @@ module.exports = (robot) ->
     res.send "Yes, I'm bot!"
 
   robot.hear /^heybot wow$/i, (res) ->
-    res.send '因果WOWWOWって奴ですね'
+    res.reply '因果WOWWOWって奴ですね'
 
   robot.hear /^heybot todo add (.*)$/i, (res) ->
     list = get_todo_list()

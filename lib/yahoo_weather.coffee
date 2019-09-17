@@ -1,10 +1,4 @@
-class YahooWeather
-  @LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'
-    .concat '{pref_id}/{location_id}.html'
-  
-  @RSSBaseURI = 'https://rss-weather.yahoo.co.jp/rss/days/'
-    .concat '{location_id}.xml'
-  
+class YahooWeatherLocationHelper
   @LocationConfig = require '../resource/yahoo_weather_location.json'
   
   search_by_region = (json, query) ->
@@ -57,19 +51,26 @@ class YahooWeather
     return result
   
   @search_location : (query) ->
-    locations = search_by_location_for_all_region YahooWeather.LocationConfig, query
+    locations = search_by_location_for_all_region YahooWeatherLocationHelper.LocationConfig, query
     if locations.length > 0
       return {'answer_type': 'location', 'result': locations}
     
-    prefectures = search_by_prefecture_for_all_region YahooWeather.LocationConfig, query
+    prefectures = search_by_prefecture_for_all_region YahooWeatherLocationHelper.LocationConfig, query
     if prefectures.length > 0
       return {'answer_type': 'prefecture', 'result': prefectures}
     
-    regions = search_by_region YahooWeather.LocationConfig, query
+    regions = search_by_region YahooWeatherLocationHelper.LocationConfig, query
     if regions.length > 0
       return {'answer_type': 'region', 'result': regions}
     
     return {'answer_type': 'error', 'result': null}
+
+class YahooWeather
+  @LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'
+    .concat '{pref_id}/{location_id}.html'
+  
+  @RSSBaseURI = 'https://rss-weather.yahoo.co.jp/rss/days/'
+    .concat '{location_id}.xml'
   
   @get_link_uri: (location_id, pref_id) ->
     YahooWeather.LinkBaseURI
@@ -149,7 +150,8 @@ class YahooWeather
       catch err
         reject(err)
 
-exports.get_link_uri    = YahooWeather.get_link_uri
-exports.get_rss_uri     = YahooWeather.get_rss_uri
-exports.get_async       = YahooWeather.get_async
-exports.search_location = YahooWeather.search_location
+exports.get_link_uri = YahooWeather.get_link_uri
+exports.get_rss_uri  = YahooWeather.get_rss_uri
+exports.get_async    = YahooWeather.get_async
+
+exports.search_location = YahooWeatherLocationHelper.search_location

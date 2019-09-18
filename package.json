@@ -16,6 +16,7 @@
     "hubot-mattermost": "^1.0.7",
     "hubot-redis-brain": "^1.0.0",
     "hubot-rules": "^1.0.0",
+    "hubot-conversation": "^1.1.1",
     "bluebird": "^3.5.5",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",

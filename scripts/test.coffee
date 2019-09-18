@@ -1,7 +1,10 @@
 MattermostFormatter = require '../lib/mattermost_formatter'
 RobotHelper = require './robot_helper'
+Conversation = require 'hubot-conversation'
 
 module.exports = (robot) ->
+  conversation = new Conversation robot
+  
   robot.hear /^heybot$/i, (res) ->
     res.send "Yes, I'm bot!"
 
@@ -15,6 +18,16 @@ module.exports = (robot) ->
     #console.log result
     
     res.send 'Location: ' + result.answer_type
+
+  robot.hear /^heybot conv ?(.+)$/, (res) ->
+    # Lexer = require '../lib/string_lexer'
+    # console.log(Lexer.split_by_space res.match[1])
+    
+    res.reply 'Are you okay?'
+    
+    dialog = conversation.startDialog(res)
+    dialog.addChoice /^(.+)$/, (res2) ->
+      res2.reply 'I know you say "' + res2.match[1] + '"'
 
   robot.hear /^heybot wow$/i, (res) ->
     res.reply '因果WOWWOWって奴ですね'

@@ -53,17 +53,17 @@ class YahooWeatherLocationHelper
   @search_location : (query) ->
     locations = search_by_location_for_all_region YahooWeatherLocationHelper.LocationConfig, query
     if locations.length > 0
-      return {'answer_type': 'location', 'result': locations}
+      return {'type': 'location', 'result': locations}
     
     prefectures = search_by_prefecture_for_all_region YahooWeatherLocationHelper.LocationConfig, query
     if prefectures.length > 0
-      return {'answer_type': 'prefecture', 'result': prefectures}
+      return {'type': 'prefecture', 'result': prefectures}
     
     regions = search_by_region YahooWeatherLocationHelper.LocationConfig, query
     if regions.length > 0
-      return {'answer_type': 'region', 'result': regions}
+      return {'type': 'region', 'result': regions}
     
-    return {'answer_type': 'error', 'result': null}
+    return {'type': 'error', 'result': null}
 
 class YahooWeather
   @LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'

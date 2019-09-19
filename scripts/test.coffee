@@ -86,7 +86,7 @@ module.exports = (robot) ->
     query = get_query res.match[1]
     location_search_conversation res, query
 
-  robot.hear /^heybot conv ?(.+)$/, (res) ->
+  robot.hear /^heybot conv ?(.*)$/, (res) ->
     # Lexer = require '../lib/string_lexer'
     # console.log(Lexer.split_by_space res.match[1])
     

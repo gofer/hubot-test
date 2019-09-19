@@ -2,7 +2,7 @@ class RobotHelper
   MattermostFormatter = require '../lib/mattermost_formatter'
   YahooWeather = require '../lib/yahoo_weather'
   
-  @get_weather_from_yahoo: (pref_id, location_id) ->
+  @get_weather_from_yahoo: (location_id, prefecture_id) ->
     json = await YahooWeather.get_async location_id
     
     moment = require 'moment-timezone'
@@ -10,7 +10,7 @@ class RobotHelper
     LastUpdateFormat = 'YYYY/MM/DD hh:mm'
     last_update = moment(json.last_update).format(LastUpdateFormat)
     
-    link_uri = YahooWeather.get_link_uri location_id, pref_id
+    link_uri = YahooWeather.get_link_uri location_id, prefecture_id
     
     header = [
         MattermostFormatter.to_link(

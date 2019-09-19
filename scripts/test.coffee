@@ -60,7 +60,7 @@ module.exports = (robot) ->
   get_weather = (res, answer) ->
     try
       respond_text = await RobotHelper.get_weather_from_yahoo(
-        answer.prefecture_id, answer.location_id
+        answer.location_id, answer.prefecture_id
       )
       res.send respond_text
     catch err
@@ -145,12 +145,12 @@ module.exports = (robot) ->
     res.send 'calc: ' + res.match[1] + ' = ' + eval(res.match[1])
 
   robot.hear /^heybot weather$/i, (res) ->
-    pref_id = 34
+    prefecture_id = 34
     location_id = 6710
     
     try
       respond_text = await RobotHelper.get_weather_from_yahoo(
-        pref_id, location_id
+        location_id, prefecture_id
       )
       res.send respond_text
     catch err

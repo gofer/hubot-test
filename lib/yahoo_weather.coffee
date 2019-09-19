@@ -67,15 +67,15 @@ class YahooWeatherLocationHelper
 
 class YahooWeather
   @LinkBaseURI = 'https://weather.yahoo.co.jp/weather/jp/'
-    .concat '{pref_id}/{location_id}.html'
+    .concat '{prefecture_id}/{location_id}.html'
   
   @RSSBaseURI = 'https://rss-weather.yahoo.co.jp/rss/days/'
     .concat '{location_id}.xml'
   
-  @get_link_uri: (location_id, pref_id) ->
+  @get_link_uri: (location_id, prefecture_id) ->
     YahooWeather.LinkBaseURI
       .replace(/\{location_id\}/g, location_id)
-      .replace(/\{pref_id\}/g, pref_id)
+      .replace(/\{prefecture_id\}/g, prefecture_id)
 
   @get_rss_uri: (location_id) ->
     YahooWeather.RSSBaseURI

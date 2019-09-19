@@ -69,7 +69,7 @@ module.exports = (robot) ->
   location_search_conversation = (res, query) ->
     try
       answer = location_search query
-      get_weather answer
+      get_weather res, answer
       # console.log answer
       # res.send 'Location: ' + answer.location_name
     catch e

@@ -8,17 +8,7 @@ module.exports = (robot) ->
   robot.hear /^heybot$/i, (res) ->
     res.send "Yes, I'm bot!"
 
-  robot.hear /^heybot debug(.*)$/, (res) ->
-    YahooWeather = require '../lib/yahoo_weather'
-    
-    query = if res.match[1].trim().length > 0 then res.match[1].trim() else ''
-    
-    answer = YahooWeather.search_location query
-    
-    #console.log answer
-    
-    #res.send 'Answer Type: ' + answer.type
-    
+  location_candidates_to_reply_message = (answer) ->
     switch (answer.type)
       when 'location'
         list = answer.result.map(
@@ -26,7 +16,7 @@ module.exports = (robot) ->
             .replace(/\{location_name\}/,   x.location.location_name) \
             .replace(/\{prefecture_name\}/, x.prefecture.prefecture_name)
         ).join('\n')
-        res.send '次のような地名がヒットしました\n\n' + list
+        return '次のような地名がヒットしました\n\n' + list
       when 'prefecture'
         list = answer.result.map(
           (x) -> 
@@ -37,7 +27,7 @@ module.exports = (robot) ->
                 ).join('\n')
              )
         ).join('\n')
-        res.send '次のような都道府県名がヒットしました\n\n' + list
+        return '次のような都道府県名がヒットしました\n\n' + list
       when 'region'
         list = answer.result.map(
           (x) -> '- ' + x.region.region_name + '\n' \
@@ -47,9 +37,54 @@ module.exports = (robot) ->
               ).join('\n')
             )
         ).join('\n')
-        res.send '次のような地域名がヒットしました\n\n' + list
+        return '次のような地域名がヒットしました\n\n' + list
       when 'error'
-        console.log 'error'
+        return '何もヒットしませんでした……'
+  
+  location_search = (query) ->
+    YahooWeather = require '../lib/yahoo_weather'
+    answer = YahooWeather.search_location query
+    
+    if answer.result && answer.type == 'location' && answer.result.length == 1
+      return {
+        'location_name': answer.result[0].location.location_name,
+        'location_id':   answer.result[0].location.location_id,
+        'prefecture_id': answer.result[0].prefecture.prefecture_id
+      }
+    
+    throw new Error location_candidates_to_reply_message answer
+  
+  get_query = (match) ->
+    if match.trim() then match.trim() else 'wow'
+  
+  get_weather = (res, answer) ->
+    try
+      respond_text = await RobotHelper.get_weather_from_yahoo(
+        answer.prefecture_id, answer.location_id
+      )
+      res.send respond_text
+    catch err
+      res.send 'お天気わからない… (' + err.toString() + ')'
+  
+  location_search_conversation = (res, query) ->
+    try
+      answer = location_search query
+      get_weather answer
+      # console.log answer
+      # res.send 'Location: ' + answer.location_name
+    catch e
+      # console.log e
+      res.reply e.message
+      res.reply 'もう一度返信してね!'
+      
+      dialog = conversation.startDialog(res)
+      dialog.addChoice /^(.+)$/, (res2) ->
+        query2 = get_query res2.match[1]
+        location_search_conversation res2, query2
+  
+  robot.hear /^heybot debug(.*)$/, (res) ->
+    query = get_query res.match[1]
+    location_search_conversation res, query
 
   robot.hear /^heybot conv ?(.+)$/, (res) ->
     # Lexer = require '../lib/string_lexer'

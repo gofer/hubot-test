@@ -27,6 +27,8 @@ class HubotYahooWeatherHelper
       text = text
         .replace(/晴れ?/, ':sunny:')
         .replace(/曇り?/, ':cloud:')
+        .replace(/大雨/,  ':cloud_with_rain: :umbrella: :cloud_with_rain:')
+        .replace(/暴風/,  ':tornado:')
         .replace(/雨/,    ':umbrella:')
         .replace(/雪/,    ':snowman:')
         .replace(/時々/,  ' / ')

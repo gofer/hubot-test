@@ -12,6 +12,11 @@ MattermostFormatter = require '../lib/mattermost_formatter'
 module.exports = (robot) ->
   conversation = new Conversation robot
   
+  orginal_receive = robot.receive
+  robot.receive = (msg) ->
+    console.log('message', msg)
+    orginal_receive.bind(robot)(msg)
+  
   robot.hear /^heybot$/i, (res) ->
     res.send "Yes, I'm bot!"
 

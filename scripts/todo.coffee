@@ -35,12 +35,19 @@ module.exports = (robot) ->
   
   robot.hear /^heybot todo add (.*)$/i, (res) ->
     list = get_todo_list()
-    list.push(res.match[1])
+    list.push(res.match[1].trim())
     set_todo_list list
     
-    res.reply 'ToDo \"' + res.match[1] + '\" 覚えた!'
+    res.reply 'ToDo \"' + res.match[1].trim() + '\" 覚えた!'
 
   robot.hear /^heybot todo forget$/i, (res) ->
     set_todo_list []
     
     res.reply 'ToDo 全部忘れた!'
+  
+  robot.hear /^heybot todo ?(.*)$/i, (res) ->
+    command = res.match[1].trim()
+    if command.length == 0
+      res.reply (list_to_message get_todo_list())
+    else
+      res.reply '[ToDo] Unknown command: ' + command

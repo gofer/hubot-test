@@ -14,10 +14,20 @@ module.exports = (robot) ->
   
   orginal_receive = robot.receive
   robot.receive = (msg) ->
-    console.log('message', msg)
+    switch (msg.constructor.name)
+      when 'TextMessage'
+        # console.log('TextMessage', msg.text)
+        msg.text = msg.text.replace(/^hubot /, '')
+      when 'CatchAllMessage'
+        console.log('CatchAllMessage', msg.message.text)
+        msg.message.text = msg.message.text.replace(/^hubot /, '')
+      else
+        throw new Error('Unknown message type')
+    
     orginal_receive.bind(robot)(msg)
   
-  robot.hear /^heybot$/i, (res) ->
+  robot.hear /^(hubot )?heybot$/i, (res) ->
+    # console.log(res)
     res.send "Yes, I'm bot!"
 
   robot.hear /^heybot wow$/i, (res) ->

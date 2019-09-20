@@ -27,35 +27,7 @@ module.exports = (robot) ->
     dialog = conversation.startDialog(res)
     dialog.addChoice /^(.+)$/, (res2) ->
       res2.reply 'I know you say "' + res2.match[1] + '"'
-
-  robot.hear /^heybot todo add (.*)$/i, (res) ->
-    list = get_todo_list()
-    list.push(res.match[1])
-    set_todo_list list
-    
-    res.send 'ToDo \"' + res.match[1] + '\" 覚えた!'
-
-  robot.hear /^heybot todo list$/i, (res) ->
-    list = get_todo_list()
-    list = MattermostFormatter.to_check_list list
-    
-    if list.length == 0
-      res.send 'ToDo 何も覚えていない…'
-    else
-      res.send 'ToDo で覚えているのは次の通りだよ!\n\n' + list
-
-  robot.hear /^heybot todo forget$/i, (res) ->
-    set_todo_list []
-    
-    res.send 'ToDo 全部忘れた!'
   
-  get_todo_list = ->
-    list = robot.brain.get 'todo'
-    return if (list == null) then [] else list
-  
-  set_todo_list = (list) ->
-    robot.brain.set 'todo', list
-
   robot.hear /^heybot time/i, (res) ->
     moment = require 'moment-timezone'
     moment.locale('ja-JP')

@@ -44,10 +44,3 @@ module.exports = (robot) ->
     set_todo_list []
     
     res.reply 'ToDo 全部忘れた!'
-  
-  robot.hear /^heybot todo ?(.*)$/i, (res) ->
-    command = res.match[1].trim()
-    if command.length == 0
-      res.reply (list_to_message get_todo_list())
-    else
-      res.reply '[ToDo] Unknown command: ' + command

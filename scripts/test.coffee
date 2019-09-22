@@ -16,7 +16,7 @@ module.exports = (robot) ->
   robot.receive = (msg) ->
     switch (msg.constructor.name)
       when 'TextMessage'
-        # console.log('TextMessage', msg.text)
+        console.log('TextMessage', msg.text)
         msg.text = msg.text.replace(/^hubot /, '')
       when 'CatchAllMessage'
         console.log('CatchAllMessage', msg.message.text)

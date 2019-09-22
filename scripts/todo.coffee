@@ -20,7 +20,7 @@ module.exports = (robot) ->
     robot.brain.set ToDoListBrainKey, list
   
   list_to_message = (list) ->
-    list = MattermostFormatter.to_check_list list
+    list = MattermostFormatter.to_enumerate list
     
     if list.length == 0
       return 'ToDo 何も覚えていない…'

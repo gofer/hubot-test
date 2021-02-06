@@ -1,2 +1,5 @@
 .hubot_history
 node_modules
+.matteruser.env
+*.pem
+running.sh

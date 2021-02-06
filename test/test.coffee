@@ -41,7 +41,7 @@ describe 'test', ->
     beforeEach ->
       co ->
         yield room.user.say 'gofer', 'heybot weather'
-        yield new Promise.delay(1000);
+        yield new Promise.delay(1000)
     
     it 'お天気いかが?', ->
       console.log('room.messages = ', room.messages)

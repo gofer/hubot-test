@@ -16,7 +16,7 @@
     "hubot-diagnostics": "^1.0.0",
     "hubot-help": "^1.0.1",
     "hubot-mattermost": "^1.0.7",
-    "hubot-matteruser": "^5.4.5",
+    "hubot-matteruser": "^5.4.6",
     "hubot-redis-brain": "^1.0.0",
     "hubot-rules": "^1.0.0",
     "moment": "^2.29.4",
